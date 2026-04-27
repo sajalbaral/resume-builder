@@ -27,7 +27,7 @@ https://resume-builder-wine-seven.vercel.app/
 - React
 - Vite
 - JavaScript
-- CSS (custom dark UI)
+- CSS
 - Google Gemini API
 - Vercel (serverless functions + hosting)
 
