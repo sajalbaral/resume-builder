@@ -5,6 +5,7 @@ import InputCard from "./components/InputCard";
 import AnalyzeButton from "./components/AnalyzeButton";
 import ResultCard from "./components/ResultCard";
 import { ResumeIcon, BriefcaseIcon } from "./components/Icons";
+import Footer from "./components/Footer";
 
 function App() {
   const [resumeInput, setResumeInput] = useState("");
@@ -114,6 +115,7 @@ function App() {
       <AnalyzeButton onClick={clickedAnalyze} loading={loading} />
 
       <ResultCard result={analysisResult} error={error} />
+      <Footer />
     </div>
   );
 }
