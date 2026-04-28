@@ -1,6 +1,8 @@
 import formidable from "formidable";
 import fs from "fs";
-import pdfParse from "pdf-parse";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 
 export default async function pdfParser(req, res) {
   if (req.method !== "POST") {
