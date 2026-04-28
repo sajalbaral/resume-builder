@@ -2,7 +2,9 @@ export default function Header({ user, handleLogout }) {
   return (
     <header className="header">
       <div className="header-nav">
-        <span className="header-user">Welcome, {user?.email}</span>
+        <span className="header-user">
+          Welcome, {user?.email?.split("@")[0]}
+        </span>
         <button className="auth-btn header-logout" onClick={handleLogout}>
           Logout
         </button>
