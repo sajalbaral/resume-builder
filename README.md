@@ -20,7 +20,7 @@ A modern AI-powered web app that analyzes resumes against job descriptions and p
 
 ## Live Demo
 
-https://resume-builder-wine-seven.vercel.app/
+[https://resume-builder-wine-seven.vercel.app/](https://ai-resume-analyzer-liard-rho.vercel.app/)
 
 ---
 
