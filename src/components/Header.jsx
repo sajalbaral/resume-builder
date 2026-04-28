@@ -1,10 +1,12 @@
 export default function Header({ user, handleLogout }) {
   return (
     <header className="header">
-      <button className="logout-button" onClick={handleLogout}>
-        Logout
-      </button>
-      <h2>Welcome, {user?.email}</h2>
+      <div className="header-nav">
+        <span className="header-user">Welcome, {user?.email}</span>
+        <button className="auth-btn header-logout" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
       <div className="badge">AI-powered</div>
       <h1>
         Resume <em>Analyzer</em>

@@ -8,6 +8,7 @@ import Auth from "./components/Auth";
 import supabase from "./supabase";
 import { ResumeIcon, BriefcaseIcon } from "./components/Icons";
 import Footer from "./components/Footer";
+import PdfUpload from "./components/PdfUpload";
 
 function App() {
   const [resumeInput, setResumeInput] = useState("");
@@ -16,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
 
   useEffect(() => {
     const session = supabase.auth.getSession().then(({ data: { session } }) => {
@@ -112,8 +114,40 @@ function App() {
     return JSON.parse(cleaned);
   }
 
+  async function analyzePdf() {
+    if (!pdfFile) {
+      alert("Please select a PDF file first.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setAnalysisResult(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", pdfFile);
+      const response = await fetch("/api/pdfParse", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data?.error || "PDF parsing failed");
+      const parsedText = data.text;
+      const result = await analyzeResume(parsedText, jobDescription);
+      setAnalysisResult(result);
+    } catch (err) {
+      console.log(err);
+      setError("An error occurred while parsing the PDF.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
+  }
+
+  function handleFileChange(file) {
+    setPdfFile(file);
   }
 
   return (
@@ -123,15 +157,8 @@ function App() {
           <Header user={user} handleLogout={handleLogout} />
 
           <div className="input-grid">
-            <InputCard
-              label="Resume"
-              name="Resume-input"
-              id="Resume-input"
-              value={resumeInput}
-              onChange={handleInput}
-              placeholder="Paste your resume here — work experience, skills, education..."
-              icon={<ResumeIcon />}
-            />
+            <PdfUpload onFileSelect={handleFileChange} pdfFile={pdfFile} />
+
             <InputCard
               label="Job Description"
               name="Job-description"
@@ -143,7 +170,11 @@ function App() {
             />
           </div>
 
-          <AnalyzeButton onClick={clickedAnalyze} loading={loading} />
+          <AnalyzeButton
+            onClick={analyzePdf}
+            loading={loading}
+            disabled={!pdfFile || !jobDescription}
+          />
 
           <ResultCard result={analysisResult} error={error} />
           <Footer />

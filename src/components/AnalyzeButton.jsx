@@ -10,9 +10,13 @@ function LoadingDots() {
   );
 }
 
-export default function AnalyzeButton({ onClick, loading }) {
+export default function AnalyzeButton({ onClick, loading, disabled }) {
   return (
-    <button className="analyze-btn" onClick={onClick} disabled={loading}>
+    <button
+      className="analyze-btn"
+      onClick={onClick}
+      disabled={loading || disabled}
+    >
       {loading ? <LoadingDots /> : <SearchIcon />}
       {loading ? "Analyzing..." : "Analyze Match"}
     </button>
